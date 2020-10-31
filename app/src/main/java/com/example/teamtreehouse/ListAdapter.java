@@ -35,7 +35,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         return Recipes.names.length;
     }
 
-    private class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTextView;
         private ImageView mImageView;
