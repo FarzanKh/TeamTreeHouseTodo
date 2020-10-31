@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,6 +22,8 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import java.util.List;
+
 
 public class ViewPagerFragment extends Fragment {
     public static final String KEY_RECIPE_INDEX = "recipe_index";
@@ -27,6 +31,8 @@ public class ViewPagerFragment extends Fragment {
     EditText edt_name;
     SwitchMaterial sw_active;
     ListView lv_todos;
+    ArrayAdapter todoArrayAdapter;
+    DataBaseHelper dataBaseHelper;
 
 
 
@@ -44,22 +50,29 @@ public class ViewPagerFragment extends Fragment {
         edt_name = (EditText) view.findViewById(R.id.et_name);
         sw_active = (SwitchMaterial) view.findViewById(R.id.sw_active);
         lv_todos = (ListView) view.findViewById(R.id.lv_todos);
-        Todo todo = new Todo(-3, edt_name.getText().toString(), sw_active.isChecked());
+
+        dataBaseHelper = new DataBaseHelper(getContext());
+
+        ShowTodosOnListView(dataBaseHelper);
 
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Todo todo;
                 try {
-                    Todo todo = new Todo(-3, edt_name.getText().toString(), sw_active.isChecked());
+                    todo = new Todo(-3, edt_name.getText().toString(), sw_active.isChecked());
                     Toast.makeText(getActivity(), todo.toString(), Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e) {
                     Toast.makeText(getActivity(), "Error Creating Todo", Toast.LENGTH_SHORT).show();
-
+                    todo = new Todo(-1, "Error", false);
                 }
 
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+                boolean success = dataBaseHelper.addOne(todo);
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                ShowTodosOnListView(dataBaseHelper);
             }
         });
 
@@ -67,12 +80,32 @@ public class ViewPagerFragment extends Fragment {
         btn_viewall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "hahaha", Toast.LENGTH_SHORT).show();
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+                ShowTodosOnListView(dataBaseHelper);
             }
         });
 
+        lv_todos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Todo clickedTodo = (Todo) parent.getItemAtPosition(position);
+                dataBaseHelper.deleteOne(clickedTodo);
+                ShowTodosOnListView(dataBaseHelper);
+                Toast.makeText(getContext(), "Deleted " + clickedTodo, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+
         return view;
     }
+
+    private void ShowTodosOnListView(DataBaseHelper dataBaseHelper2) {
+        todoArrayAdapter = new ArrayAdapter<Todo>(getContext(), android.R.layout.simple_list_item_1, dataBaseHelper2.getEveryone());
+        lv_todos.setAdapter(todoArrayAdapter);
+    }
+
+
 
 
     @Override
