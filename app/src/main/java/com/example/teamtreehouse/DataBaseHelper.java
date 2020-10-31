@@ -66,7 +66,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public List<Todo> getEveryone() {
         List<Todo> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + TODO_TABLE;
+        String queryString = "SELECT * FROM " + TODO_TABLE + " ORDER BY " + COLUMN_TODO_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
         if (cursor.moveToFirst()) {

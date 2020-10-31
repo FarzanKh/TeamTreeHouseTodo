@@ -1,6 +1,8 @@
 package com.example.teamtreehouse;
 
 import android.app.Fragment;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,7 +97,6 @@ public class ViewPagerFragment extends Fragment {
                 return true;
             }
         });
-
 
         return view;
     }
