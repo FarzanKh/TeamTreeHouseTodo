@@ -1,42 +1,30 @@
 package com.example.teamtreehouse;
 
 import android.app.Fragment;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
-
-import java.util.List;
 
 
 public class ViewPagerFragment extends Fragment {
     public static final String KEY_RECIPE_INDEX = "recipe_index";
-    Button btn_viewall, btn_add;
+    Button btn_sort, btn_add;
     EditText edt_name;
     SwitchMaterial sw_active;
     ListView lv_todos;
     ArrayAdapter todoArrayAdapter;
     DataBaseHelper dataBaseHelper;
-
-
 
 
     @Nullable
@@ -48,7 +36,7 @@ public class ViewPagerFragment extends Fragment {
 
 
         btn_add = (Button) view.findViewById(R.id.btn_add);
-        btn_viewall = (Button) view.findViewById(R.id.btn_viewAll);
+        btn_sort = (Button) view.findViewById(R.id.btn_viewAll);
         edt_name = (EditText) view.findViewById(R.id.et_name);
         sw_active = (SwitchMaterial) view.findViewById(R.id.sw_active);
         lv_todos = (ListView) view.findViewById(R.id.lv_todos);
@@ -79,11 +67,11 @@ public class ViewPagerFragment extends Fragment {
         });
 
 
-        btn_viewall.setOnClickListener(new View.OnClickListener() {
+        btn_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
-                ShowTodosOnListView(dataBaseHelper);
+                ShowTodosOnListViewSorted(dataBaseHelper);
             }
         });
 
@@ -98,6 +86,16 @@ public class ViewPagerFragment extends Fragment {
             }
         });
 
+        // Can we implement something that when we tap on a specific todo item it changes it's color
+        // that represent the item is marked as done?
+
+//        lv_todos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
+
         return view;
     }
 
@@ -106,7 +104,10 @@ public class ViewPagerFragment extends Fragment {
         lv_todos.setAdapter(todoArrayAdapter);
     }
 
-
+    private void ShowTodosOnListViewSorted(DataBaseHelper dataBaseHelper2) {
+        todoArrayAdapter = new ArrayAdapter<Todo>(getContext(), android.R.layout.simple_list_item_1, dataBaseHelper2.getEveryoneSorted());
+        lv_todos.setAdapter(todoArrayAdapter);
+    }
 
 
     @Override

@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnLi
             fragmentTransaction.replace(R.id.placeHolder, fragment, LIST_FRAGMENT);
             fragmentTransaction.commit();
         }
-
-
     }
 
     @Override

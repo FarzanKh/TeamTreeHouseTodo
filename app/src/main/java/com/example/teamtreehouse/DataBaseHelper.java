@@ -62,10 +62,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+//    public void search(String searchText) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//    }
+
 
     public List<Todo> getEveryone() {
         List<Todo> returnList = new ArrayList<>();
 
+
+        String queryString = "SELECT * FROM " + TODO_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()) {
+            // loop through the cursor and create new row
+            do {
+                int todoID = cursor.getInt(0);
+                String todoName = cursor.getString(1);
+                boolean isActive = cursor.getInt(2) == 1 ? true: false;
+                Todo newTodo = new Todo(todoID, todoName, isActive);
+                returnList.add(newTodo);
+            } while (cursor.moveToNext());
+        } else {
+            // we will not add anything to the list
+
+        }
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+
+    public List<Todo> getEveryoneSorted() {
+        List<Todo> returnList = new ArrayList<>();
+
+        // Delete the order by from here and implement it's functionality
+        // in a button
         String queryString = "SELECT * FROM " + TODO_TABLE + " ORDER BY " + COLUMN_TODO_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
@@ -86,4 +119,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+
+
 }
