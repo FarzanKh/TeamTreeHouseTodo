@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 
-public class ViewPagerFragment extends Fragment {
+public class  ViewPagerFragment extends Fragment {
     public static final String KEY_RECIPE_INDEX = "recipe_index";
     Button btn_sort, btn_add;
     EditText edt_name;

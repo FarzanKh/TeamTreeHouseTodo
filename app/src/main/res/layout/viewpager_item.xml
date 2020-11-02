@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:id="@+id/mainTodoLayout">
+
+    <CheckBox
+        android:id="@+id/item_checkbox"
+        android:width="0dp"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"/>
+    <!--        android:clickable="false"-->
+
+
+    <TextView
+        android:id="@+id/item_text"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="131dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Delete"/>
+
+</LinearLayout>
